@@ -113,7 +113,7 @@ export class MenuItem extends React.PureComponent<IMenuItemProps & React.AnchorH
             className,
         );
 
-        const target = (
+        let anchorElm = (
             <a {...htmlProps} {...(disabled ? DISABLED_PROPS : {})} className={anchorClasses}>
                 <Icon icon={icon} />
                 <Text className={Classes.FILL} ellipsize={!multiline}>
@@ -123,6 +123,19 @@ export class MenuItem extends React.PureComponent<IMenuItemProps & React.AnchorH
                 {hasSubmenu && <Icon icon="caret-right" />}
             </a>
         );
+
+        let spanElm = (
+            <span {...htmlProps} {...(disabled ? DISABLED_PROPS : {})} className={anchorClasses}>
+                <Icon icon={icon} />
+                <Text className={Classes.FILL} ellipsize={!multiline}>
+                    {text}
+                </Text>
+                {this.maybeRenderLabel(labelElement)}
+                {hasSubmenu && <Icon icon="caret-right" />}
+            </span>
+        );
+
+        const target = (htmlProps.href)? anchorElm:spanElm;
 
         const liClasses = classNames({ [Classes.MENU_SUBMENU]: hasSubmenu });
         return <li className={liClasses}>{this.maybeRenderPopover(target, children)}</li>;
