@@ -7,10 +7,10 @@
   },
   "bin": {
     "assert-package-layout": "./assert-package-layout.js",
-    "css-dist": "./css-dist.sh",
+    "css-dist": "./css-dist.js",
     "generate-css-variables": "./generate-css-variables.js",
     "generate-icons-source": "./generate-icons-source.js",
-    "sass-compile": "./sass-compile.sh",
+    "sass-compile": "./sass-compile.js",
     "sass-lint": "./sass-lint.js",
     "ts-lint": "./ts-lint.js"
   },
