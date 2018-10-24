@@ -1,42 +1,29 @@
 #!/usr/bin/env node
-/*
-#!/usr/bin/env bash
 
-if [ $# -eq 0 ]; then
-  echo "Usage: [OUTPUT=dir] sass-compile <directory> [...args]"
-  exit 1
-fi
+const spawn = require('child_process').spawn;
+const path_resolve = require('path').resolve;
+const OUTPUT = (process.env.OUTPUT)?process.env.OUTPUT:`lib/css/`;
+const ROOT_NM = `../../node_modules`;
+const fileExtension = (process.platform === 'win32')?".cmd":"";
+const args = [
+    '--importer',
+    `${ROOT_NM}/node-sass-package-importer/dist/cli.js`,
+    '--output',
+    `${OUTPUT}`,
+    '--source-map',
+    'true'
+];
+const env = Object.create( process.env );
 
-# set OUTPUT env varible to change output directory
-OUTPUT="${OUTPUT:-lib/css/}"
+process.argv.forEach((val, indx) => {
+    if(indx >= 2) args.push(val);
+});
 
-# dependencies are hoisted to root node_modules, so load packages from there
-ROOT_NM=../../node_modules
+const proc = spawn(path_resolve(`${ROOT_NM}/.bin/node-sass-chokidar${fileExtension}`), args, {cwd: process.cwd(), env:env});
 
-$ROOT_NM/.bin/node-sass-chokidar \
-  --importer $ROOT_NM/node-sass-package-importer/dist/cli.js \
-  --output $OUTPUT \
-  --source-map true \
-  $@*/
+proc.on('close', (code) => {
+    process.exit(code);
+});
 
+proc.on('error', function( err ){ throw err });
 
-let spawn = require(`child_process`).spawnSync;
-let OUTPUT = (process.env.OUTPUT)?process.env.OUTPUT:`lib/css/`;
-let ROOT_NM = `../../node_modules`;
-let args = process.argv;
-delete args[0], args[1];
-let argString = args.join(' ');
-
-console.log(`RUNNING: ${ROOT_NM}/.bin/node-sass-chokidar
---importer ${ROOT_NM}/node-sass-package-importer/dist/cli.js
---output ${OUTPUT}
---source-map true
-${argString}`);
-
-let proc = spawn(`${ROOT_NM}/.bin/node-sass-chokidar
---importer ${ROOT_NM}/node-sass-package-importer/dist/cli.js
---output ${OUTPUT}
---source-map true
-${argString}`);
-
-process.exit(proc.status);
