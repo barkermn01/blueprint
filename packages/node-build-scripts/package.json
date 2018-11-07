@@ -12,7 +12,8 @@
     "generate-icons-source": "./generate-icons-source.js",
     "sass-compile": "./sass-compile.js",
     "sass-lint": "./sass-lint.js",
-    "ts-lint": "./ts-lint.js"
+    "ts-lint": "./ts-lint.js",
+    "rm":"./rm.js"
   },
   "dependencies": {
     "autoprefixer": "^7.1.2",
