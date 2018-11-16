@@ -84,9 +84,15 @@ paths.forEach(val => {
                         processChildren(path, () => { 
                             deletePaths.forEach((pathObj) => {
                                 if(pathObj.type === "file"){
-                                    fs.unlinkSync(pathObj.path);
+                                    try{
+                                        fs.unlinkSync(pathObj.path);
+                                    }catch(e){
+                                    }
                                 }else{
-                                    fs.rmdirSync(pathObj.path);
+                                    try{
+                                        fs.rmdirSync(pathObj.path);
+                                    }catch(e){
+                                    }
                                 }
                             });
                         })
